@@ -10,11 +10,11 @@ export const Timer: React.FC = () => {
   const isLowTime = productionTimer < 60;
 
   return (
-    <div className="panel">
-      <h3 className="text-lg font-semibold mb-2 text-center">Time Remaining</h3>
+    <div className="panel text-center">
+      <div className="text-xs font-medium text-primary-500 mb-2">Time Remaining</div>
       <div
-        className={`text-5xl font-bold text-center ${
-          isLowTime ? 'text-red-500 animate-pulse' : 'text-blue-400'
+        className={`text-4xl font-semibold font-mono tabular-nums ${
+          isLowTime ? 'text-danger animate-pulse' : 'text-primary-900'
         }`}
       >
         {minutes}:{seconds.toString().padStart(2, '0')}

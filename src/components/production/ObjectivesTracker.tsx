@@ -8,7 +8,7 @@ export const ObjectivesTracker: React.FC = () => {
 
   return (
     <div className="panel">
-      <h3 className="text-xl font-bold mb-3">Objectives</h3>
+      <div className="text-xs font-medium text-primary-500 mb-3">Objectives</div>
       <div className="space-y-3">
         {levelDefinition.objectives.map((objective) => {
           const current = inventory[objective.resourceType] || 0;
@@ -17,17 +17,17 @@ export const ObjectivesTracker: React.FC = () => {
           const isOnTrack = current >= target * 0.8; // Consider on track if at 80%+
 
           return (
-            <div key={objective.resourceType} className="space-y-1">
-              <div className="flex justify-between text-sm">
-                <span className="font-semibold">{objective.resourceType}</span>
-                <span className={isOnTrack ? 'text-green-400' : 'text-red-400'}>
+            <div key={objective.resourceType} className="space-y-1.5">
+              <div className="flex justify-between text-xs">
+                <span className="font-medium text-primary-900">{objective.resourceType}</span>
+                <span className={`font-mono ${isOnTrack ? 'text-success' : 'text-danger'}`}>
                   {current} / {target}
                 </span>
               </div>
-              <div className="w-full bg-gray-700 rounded-full h-3 overflow-hidden">
+              <div className="w-full bg-primary-100 rounded-full h-2 overflow-hidden">
                 <div
                   className={`h-full transition-all duration-300 ${
-                    isOnTrack ? 'bg-green-500' : 'bg-red-500'
+                    isOnTrack ? 'bg-success' : 'bg-danger'
                   }`}
                   style={{ width: `${progress}%` }}
                 />

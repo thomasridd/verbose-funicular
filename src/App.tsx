@@ -94,19 +94,21 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen p-4">
+    <div className="min-h-screen bg-primary-50">
       {/* Header */}
-      <header className="mb-6">
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <h1 className="text-3xl font-bold">Factory Strategy Game</h1>
-          <div className="flex gap-6 items-center">
-            <div className="text-xl">
-              <span className="text-gray-400">Level:</span>{' '}
-              <span className="font-bold">{currentLevel}</span>
+      <header className="bg-white border-b border-primary-100 sticky top-0 z-40">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+          <h1 className="text-xl font-semibold text-primary-900">Factory</h1>
+          <div className="flex gap-8 items-center text-sm">
+            <div className="flex items-center gap-2">
+              <span className="text-primary-500 font-medium">Level</span>
+              <span className="font-semibold text-primary-900">{currentLevel}</span>
             </div>
-            <div className="text-xl">
-              <span className="text-gray-400">Money:</span>{' '}
-              <span className="font-bold text-green-400">${money.toFixed(2)}</span>
+            <div className="flex items-center gap-2">
+              <span className="text-primary-500 font-medium">Capital</span>
+              <span className="font-semibold text-primary-900 font-mono">
+                ${money.toFixed(0)}
+              </span>
             </div>
           </div>
         </div>
@@ -116,10 +118,11 @@ function App() {
       <AnimatePresence>
         {eventNotification && (
           <motion.div
-            initial={{ opacity: 0, y: -50 }}
+            initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -50 }}
-            className="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 bg-yellow-600 text-white px-6 py-4 rounded-lg shadow-2xl text-xl font-bold"
+            exit={{ opacity: 0, y: -20 }}
+            className="fixed top-20 left-1/2 transform -translate-x-1/2 z-50
+                       bg-warning text-white px-6 py-3 rounded-lg shadow-lg text-sm font-medium"
           >
             {eventNotification}
           </motion.div>
@@ -127,11 +130,11 @@ function App() {
       </AnimatePresence>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto">
+      <main className="max-w-7xl mx-auto px-6 py-8">
         {phase === 'PLANNING' && (
           <div className="space-y-6">
-            <div className="panel">
-              <h2 className="text-2xl font-bold mb-4">Planning Phase</h2>
+            <div>
+              <h2 className="text-sm font-medium text-primary-500 mb-4">Planning Phase</h2>
               <ObjectivesTracker />
             </div>
 
@@ -145,9 +148,9 @@ function App() {
 
             <FactoryFloor />
 
-            <div className="flex justify-center">
-              <Button onClick={startProduction} className="text-2xl px-12 py-6">
-                START PRODUCTION
+            <div className="flex justify-center pt-4">
+              <Button onClick={startProduction} className="px-8 py-3">
+                Start Production
               </Button>
             </div>
           </div>
@@ -155,7 +158,7 @@ function App() {
 
         {phase === 'PRODUCTION' && (
           <div className="space-y-6">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
               <Timer />
               <ObjectivesTracker />
               <InventoryPanel />
@@ -165,33 +168,37 @@ function App() {
 
             {/* Quick Purchase Panel */}
             <div className="panel">
-              <h3 className="text-xl font-bold mb-3">Quick Purchase</h3>
+              <h3 className="text-sm font-medium text-primary-500 mb-4">Quick Actions</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <h4 className="font-semibold">Resources</h4>
+                  <div className="text-xs font-medium text-primary-600 mb-2">Resources</div>
                   {levelDefinition.availableResources.map((resource) => (
                     <Button
                       key={resource.type}
                       variant="secondary"
                       onClick={() => purchaseResource(resource.type, 10)}
                       disabled={money < resource.cost * 10}
-                      className="w-full text-sm"
+                      className="w-full text-xs justify-between"
                     >
-                      Buy 10x {resource.type} (${resource.cost * 10})
+                      <span>{resource.type} × 10</span>
+                      <span className="font-mono">${resource.cost * 10}</span>
                     </Button>
                   ))}
                 </div>
                 <div>
-                  <h4 className="font-semibold mb-2">Workers</h4>
+                  <div className="text-xs font-medium text-primary-600 mb-2">Workers</div>
                   <Button
                     variant="secondary"
                     onClick={purchaseWorker}
                     disabled={money < levelDefinition.workerCost}
-                    className="w-full"
+                    className="w-full text-xs justify-between"
                   >
-                    Hire Worker (${levelDefinition.workerCost}) - Available:{' '}
-                    {availableWorkers}
+                    <span>Hire Worker</span>
+                    <span className="font-mono">${levelDefinition.workerCost}</span>
                   </Button>
+                  <div className="text-xs text-primary-500 mt-2">
+                    Available: {availableWorkers}
+                  </div>
                 </div>
               </div>
             </div>

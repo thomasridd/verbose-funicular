@@ -19,7 +19,7 @@ export const ResourceShop: React.FC = () => {
 
   return (
     <div className="panel">
-      <h3 className="text-xl font-bold mb-3">Resource Shop</h3>
+      <h3 className="text-sm font-medium text-primary-500 mb-4">Resources</h3>
       <div className="space-y-2">
         {levelDefinition.availableResources.map((resource) => {
           const currentQuantity = quantities[resource.type] || 10;
@@ -29,12 +29,14 @@ export const ResourceShop: React.FC = () => {
           return (
             <div
               key={resource.type}
-              className="bg-gray-700 p-3 rounded flex items-center justify-between"
+              className="flex items-center justify-between gap-4 p-3 rounded-lg border border-primary-100 hover:border-primary-200 transition-colors"
             >
-              <div className="flex-1">
-                <div className="font-semibold text-raw-light">{resource.type}</div>
-                <div className="text-sm text-gray-400">
-                  ${resource.cost} each | Owned: {owned}
+              <div className="flex-1 min-w-0">
+                <div className="text-sm font-medium text-primary-900 truncate">
+                  {resource.type}
+                </div>
+                <div className="text-xs text-primary-500 mt-0.5">
+                  ${resource.cost} each · Stock: {owned}
                 </div>
               </div>
               <div className="flex items-center gap-2">
@@ -48,14 +50,16 @@ export const ResourceShop: React.FC = () => {
                       [resource.type]: parseInt(e.target.value) || 1,
                     })
                   }
-                  className="w-16 px-2 py-1 bg-gray-800 rounded text-center"
+                  className="w-16 px-2 py-1.5 text-xs border border-primary-200 rounded-md text-center font-mono
+                             focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
                 />
                 <Button
                   variant="secondary"
                   onClick={() => handlePurchase(resource.type, resource.cost)}
                   disabled={money < totalCost}
+                  className="text-xs px-3 py-1.5 font-mono"
                 >
-                  Buy ${totalCost}
+                  ${totalCost}
                 </Button>
               </div>
             </div>
