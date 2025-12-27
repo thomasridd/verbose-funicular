@@ -12,16 +12,18 @@ export const WorkerShop: React.FC = () => {
 
   return (
     <div className="panel">
-      <h3 className="text-xl font-bold mb-3">Worker Shop</h3>
-      <div className="bg-gray-700 p-4 rounded">
-        <div className="flex justify-between items-center mb-3">
+      <h3 className="text-sm font-medium text-primary-500 mb-4">Workers</h3>
+      <div className="p-4 rounded-lg border border-primary-100">
+        <div className="flex justify-between items-start mb-3">
           <div>
-            <div className="text-lg font-semibold">Hire Workers</div>
-            <div className="text-sm text-gray-400">
-              Total: {totalWorkers} | Available: {availableWorkers}
+            <div className="text-sm font-medium text-primary-900">Hire Workers</div>
+            <div className="text-xs text-primary-500 mt-0.5">
+              Total: {totalWorkers} · Available: {availableWorkers}
             </div>
           </div>
-          <div className="text-2xl font-bold">${workerCost}</div>
+          <div className="text-lg font-semibold text-primary-900 font-mono">
+            ${workerCost}
+          </div>
         </div>
         <Button
           onClick={purchaseWorker}

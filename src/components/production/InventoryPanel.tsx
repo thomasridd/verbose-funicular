@@ -5,13 +5,13 @@ import { ResourceCategory } from '../../types/game.types';
 const getCategoryColor = (category: ResourceCategory) => {
   switch (category) {
     case 'RAW':
-      return 'bg-raw';
+      return 'bg-primary-400';
     case 'INTERMEDIATE':
-      return 'bg-intermediate';
+      return 'bg-accent';
     case 'FINISHED':
-      return 'bg-finished';
+      return 'bg-success';
     default:
-      return 'bg-gray-600';
+      return 'bg-primary-300';
   }
 };
 
@@ -59,18 +59,20 @@ export const InventoryPanel: React.FC = () => {
 
   return (
     <div className="panel max-h-96 overflow-y-auto">
-      <h3 className="text-xl font-bold mb-3">Inventory</h3>
+      <div className="text-xs font-medium text-primary-500 mb-3">Inventory</div>
       <div className="space-y-1">
         {resourceList.map((resource) => (
           <div
             key={resource.type}
-            className="flex justify-between items-center py-2 px-3 bg-gray-700 rounded"
+            className="flex justify-between items-center py-2 px-2.5 rounded border border-primary-100"
           >
             <div className="flex items-center gap-2">
-              <div className={`w-3 h-3 rounded-full ${getCategoryColor(resource.category)}`} />
-              <span className="text-sm">{resource.type}</span>
+              <div className={`w-2 h-2 rounded-full ${getCategoryColor(resource.category)}`} />
+              <span className="text-xs text-primary-900">{resource.type}</span>
             </div>
-            <span className="font-bold">{resource.quantity}</span>
+            <span className="text-xs font-semibold font-mono text-primary-900">
+              {resource.quantity}
+            </span>
           </div>
         ))}
       </div>

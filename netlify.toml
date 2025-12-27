@@ -1,0 +1,32 @@
+# Netlify configuration for Vite + React app
+
+[build]
+  # Build command
+  command = "npm run build"
+
+  # Publish directory (Vite outputs to 'dist' by default)
+  publish = "dist"
+
+# Node version (optional but recommended)
+[build.environment]
+  NODE_VERSION = "20"
+
+# Redirect rules for client-side routing
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Headers for better performance
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+
+# Cache static assets
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"

@@ -12,32 +12,35 @@ export const ResultsScreen: React.FC = () => {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="max-w-4xl mx-auto"
+      transition={{ duration: 0.2 }}
+      className="max-w-3xl mx-auto"
     >
-      <div className="panel mb-6">
-        <h2 className="text-3xl font-bold text-center mb-6">Level Complete!</h2>
+      <div className="panel">
+        <div className="text-center mb-8">
+          <div className="text-2xl font-semibold text-primary-900 mb-1">Level Complete</div>
+          <div className="text-sm text-primary-500">Level {currentLevel}</div>
+        </div>
 
         {/* Objectives Results */}
         <div className="mb-6">
-          <h3 className="text-xl font-bold mb-3">Objective Results</h3>
+          <div className="text-xs font-medium text-primary-500 mb-3">Objectives</div>
           <div className="space-y-2">
             {results.objectiveResults.map((obj) => (
               <div
                 key={obj.resourceType}
-                className="bg-gray-700 p-3 rounded flex justify-between items-center"
+                className="flex justify-between items-center p-3 rounded-lg border border-primary-100"
               >
                 <div>
-                  <div className="font-semibold">{obj.resourceType}</div>
-                  <div className="text-sm text-gray-400">
-                    Produced: {obj.produced} / {obj.target} (
-                    {(obj.fulfillmentPercentage * 100).toFixed(1)}%)
+                  <div className="text-sm font-medium text-primary-900">{obj.resourceType}</div>
+                  <div className="text-xs text-primary-500 mt-0.5">
+                    {obj.produced} / {obj.target} ({(obj.fulfillmentPercentage * 100).toFixed(0)}%)
                   </div>
                 </div>
                 <div className="text-right">
-                  <div className="text-lg font-bold text-green-400">
-                    ${obj.revenue.toFixed(2)}
+                  <div className="text-sm font-semibold text-success font-mono">
+                    ${obj.revenue.toFixed(0)}
                   </div>
                 </div>
               </div>
@@ -45,100 +48,84 @@ export const ResultsScreen: React.FC = () => {
           </div>
         </div>
 
-        {/* Financial Breakdown */}
-        <div className="mb-6 grid grid-cols-2 gap-4">
-          <div className="bg-gray-700 p-4 rounded">
-            <h3 className="text-lg font-bold mb-2 text-green-400">Revenue</h3>
-            <div className="text-2xl font-bold">${results.revenue.toFixed(2)}</div>
-          </div>
-          <div className="bg-gray-700 p-4 rounded">
-            <h3 className="text-lg font-bold mb-2 text-red-400">Costs</h3>
-            <div className="space-y-1 text-sm">
-              <div className="flex justify-between">
-                <span>Resources:</span>
-                <span>${results.costs.resources.toFixed(2)}</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Facilities:</span>
-                <span>${results.costs.facilities.toFixed(2)}</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Workers:</span>
-                <span>${results.costs.workers.toFixed(2)}</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Upgrades:</span>
-                <span>${results.costs.upgrades.toFixed(2)}</span>
-              </div>
-              <div className="border-t border-gray-600 pt-1 mt-1 flex justify-between font-bold">
-                <span>Total:</span>
-                <span>
-                  $
-                  {(
-                    results.costs.resources +
-                    results.costs.facilities +
-                    results.costs.workers +
-                    results.costs.upgrades
-                  ).toFixed(2)}
-                </span>
-              </div>
+        {/* Financial Summary */}
+        <div className="mb-6">
+          <div className="text-xs font-medium text-primary-500 mb-3">Financial Summary</div>
+          <div className="space-y-2">
+            <div className="flex justify-between items-center p-3 rounded-lg border border-primary-100">
+              <span className="text-sm text-primary-600">Revenue</span>
+              <span className="text-sm font-semibold text-success font-mono">
+                ${results.revenue.toFixed(0)}
+              </span>
+            </div>
+            <div className="flex justify-between items-center p-3 rounded-lg border border-primary-100">
+              <span className="text-sm text-primary-600">Costs</span>
+              <span className="text-sm font-semibold text-danger font-mono">
+                -$
+                {(
+                  results.costs.resources +
+                  results.costs.facilities +
+                  results.costs.workers +
+                  results.costs.upgrades
+                ).toFixed(0)}
+              </span>
+            </div>
+            <div className="flex justify-between items-center p-3 rounded-lg bg-primary-50 border border-primary-200">
+              <span className="text-sm font-medium text-primary-900">Profit</span>
+              <span
+                className={`text-lg font-semibold font-mono ${
+                  results.profit >= 0 ? 'text-success' : 'text-danger'
+                }`}
+              >
+                ${results.profit.toFixed(0)}
+              </span>
             </div>
           </div>
         </div>
 
-        {/* Summary */}
-        <div className="space-y-3 mb-6">
-          <div className="bg-gray-700 p-4 rounded flex justify-between items-center">
-            <span className="text-lg font-semibold">Profit</span>
-            <span
-              className={`text-2xl font-bold ${
-                results.profit >= 0 ? 'text-green-400' : 'text-red-400'
-              }`}
-            >
-              ${results.profit.toFixed(2)}
-            </span>
+        {/* Performance Metrics */}
+        <div className="mb-6 grid grid-cols-2 gap-3">
+          <div className="p-3 rounded-lg border border-primary-100 text-center">
+            <div className="text-xs text-primary-500 mb-1">Target Fulfillment</div>
+            <div className="text-xl font-semibold text-primary-900">
+              {(results.targetFulfillment * 100).toFixed(0)}%
+            </div>
           </div>
-          <div className="bg-gray-700 p-4 rounded flex justify-between items-center">
-            <span className="text-lg font-semibold">Target Fulfillment</span>
-            <span className="text-2xl font-bold text-blue-400">
-              {(results.targetFulfillment * 100).toFixed(1)}%
-            </span>
-          </div>
-          <div className="bg-gray-700 p-4 rounded flex justify-between items-center">
-            <span className="text-lg font-semibold">Combined Score</span>
-            <span className="text-2xl font-bold text-yellow-400">
+          <div className="p-3 rounded-lg border border-primary-100 text-center">
+            <div className="text-xs text-primary-500 mb-1">Score</div>
+            <div className="text-xl font-semibold text-primary-900">
               {results.combinedScore.toFixed(0)}
-            </span>
-          </div>
-          <div className="bg-green-800 p-4 rounded flex justify-between items-center">
-            <span className="text-lg font-semibold">Capital Boost</span>
-            <span className="text-2xl font-bold text-green-300">
-              +${results.capitalBoost.toFixed(2)}
-            </span>
+            </div>
           </div>
         </div>
 
-        {/* Current Money */}
-        <div className="bg-blue-800 p-4 rounded mb-6">
-          <div className="text-center">
-            <div className="text-lg text-blue-200">Total Money Available</div>
-            <div className="text-3xl font-bold text-blue-100">
-              ${money.toFixed(2)}
-            </div>
+        {/* Capital Summary */}
+        <div className="mb-6 p-4 rounded-lg bg-success-light/10 border border-success-light/20">
+          <div className="flex justify-between items-center mb-2">
+            <span className="text-sm text-primary-600">Capital Boost</span>
+            <span className="text-lg font-semibold text-success font-mono">
+              +${results.capitalBoost.toFixed(0)}
+            </span>
+          </div>
+          <div className="flex justify-between items-center">
+            <span className="text-sm font-medium text-primary-900">Total Capital</span>
+            <span className="text-2xl font-semibold text-primary-900 font-mono">
+              ${money.toFixed(0)}
+            </span>
           </div>
         </div>
 
         {/* Next Level Button */}
         {hasNextLevel ? (
-          <Button onClick={nextLevel} className="w-full text-xl py-4">
-            Next Level →
+          <Button onClick={nextLevel} className="w-full">
+            Continue to Level {currentLevel + 1}
           </Button>
         ) : (
-          <div className="text-center">
-            <div className="text-2xl font-bold text-yellow-400 mb-2">
-              Congratulations! You completed all levels!
+          <div className="text-center p-6">
+            <div className="text-lg font-semibold text-primary-900 mb-1">
+              All Levels Complete
             </div>
-            <p className="text-gray-400">More levels coming soon...</p>
+            <p className="text-sm text-primary-500">More levels coming soon</p>
           </div>
         )}
       </div>
